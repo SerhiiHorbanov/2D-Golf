@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Golf_2D.States
 {
-    internal class Starting : State
+    class Starting : State
     {
         public override void Update()
         {

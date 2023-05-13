@@ -10,7 +10,8 @@ namespace Golf_2D
     {
         static void Main(string[] args)
         {
-
+            Golf2D game = new Golf2D();
+            game.Start();
         }
     }
 }
