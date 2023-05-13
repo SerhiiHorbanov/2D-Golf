@@ -1,6 +1,5 @@
 ﻿using Golf_2D.States;
 using SFML.Graphics;
-using SFML.Window;
 
 namespace Golf_2D
 {
@@ -8,7 +7,7 @@ namespace Golf_2D
     {
         static public bool endedPlaying = false;
         static public State currentState = new Starting();
-        static public RenderWindow window = new RenderWindow(new VideoMode(500, 500), "2D golf");
+        static public RenderWindow window;
 
         public void Start()
         {
