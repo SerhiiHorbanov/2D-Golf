@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\CSFML.2.5.1\build\netframework\CSFML.props" Condition="Exists('packages\CSFML.2.5.1\build\netframework\CSFML.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{1DD0A3AC-4C0B-481E-B4E1-ECD8B43B89BF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>_2D_Golf</RootNamespace>
+    <RootNamespace>Golf_2D</RootNamespace>
     <AssemblyName>2D-Golf</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -61,26 +60,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Golf2D.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Scripts\GolfBall.cs" />
+    <Compile Include="Scripts\Golf2D.cs" />
+    <Compile Include="Scripts\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="States\Starting.cs" />
-    <Compile Include="States\State.cs" />
+    <Compile Include="Scripts\States\PlayingGame.cs" />
+    <Compile Include="Scripts\States\Starting.cs" />
+    <Compile Include="Scripts\States\State.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Enums\" />
+    <Folder Include="Scripts\Enums\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>Ten projekt zawiera odwołania do pakietów NuGet, których nie ma na tym komputerze. Użyj przywracania pakietów NuGet, aby je pobrać. Aby uzyskać więcej informacji, zobacz http://go.microsoft.com/fwlink/?LinkID=322105. Brakujący plik: {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('packages\CSFML.2.5.1\build\netframework\CSFML.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\CSFML.2.5.1\build\netframework\CSFML.props'))" />
-    <Error Condition="!Exists('packages\CSFML.2.5.1\build\netframework\CSFML.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\CSFML.2.5.1\build\netframework\CSFML.targets'))" />
-  </Target>
-  <Import Project="packages\CSFML.2.5.1\build\netframework\CSFML.targets" Condition="Exists('packages\CSFML.2.5.1\build\netframework\CSFML.targets')" />
 </Project>
