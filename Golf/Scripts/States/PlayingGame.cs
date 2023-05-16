@@ -7,7 +7,7 @@ using SFML.Window;
 using SFML.Graphics;
 using SFML.System;
 
-namespace Golf_2D.States
+namespace Golf.States
 {
     internal class PlayingGame : State
     {
@@ -20,14 +20,14 @@ namespace Golf_2D.States
 
         public override void Render()
         {
-            Golf2D.window.Clear(Color.Green);
+            Game.window.Clear(Color.White);
             golfBall.Render();
-            Golf2D.window.Display();
+            Game.window.Display();
         }
 
         public override void Input()
         {
-            Golf2D.window.DispatchEvents();
+            Game.window.DispatchEvents();
         }
     }
 }

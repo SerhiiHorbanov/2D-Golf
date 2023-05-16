@@ -1,7 +1,7 @@
 ﻿using SFML.Window;
 using SFML.Graphics;
 
-namespace Golf_2D.States
+namespace Golf.States
 {
     class Starting : State
     {
@@ -9,19 +9,19 @@ namespace Golf_2D.States
         {
             VideoMode videoMode = new VideoMode(500, 500);
 
-            Golf2D.window = new RenderWindow(videoMode, "2D golf");
+            Game.window = new RenderWindow(videoMode, "2D golf");
 
-            Golf2D.SetState(new PlayingGame());
+            Game.SetState(new PlayingGame());
         }
 
         public override void Render()
         {
-            
+
         }
 
         public override void Input()
         {
-            
+
         }
     }
 }

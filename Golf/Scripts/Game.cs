@@ -1,10 +1,10 @@
-﻿using Golf_2D.States;
+﻿using Golf.States;
 using SFML.Graphics;
 using SFML.Window;
 
-namespace Golf_2D
+namespace Golf
 {
-    class Golf2D
+    class Game
     {
         static public bool endedPlaying = false;
         static private State currentState = new Starting();
@@ -43,7 +43,7 @@ namespace Golf_2D
 
         private void Timing()
         {
-            
+
         }
     }
 }

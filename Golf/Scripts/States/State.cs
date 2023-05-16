@@ -1,5 +1,5 @@
 ﻿
-namespace Golf_2D.States
+namespace Golf.States
 {
     abstract class State
     {
