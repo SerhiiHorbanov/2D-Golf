@@ -7,7 +7,7 @@ namespace Golf_2D
     class Golf2D
     {
         static public bool endedPlaying = false;
-        static public State currentState = new Starting();
+        static private State currentState = new Starting();
         static public RenderWindow window;
 
         public void Start()
