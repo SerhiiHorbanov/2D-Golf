@@ -13,6 +13,8 @@ namespace Golf.States
 {
     internal class PlayingGame : State
     {
+        Vector2i mousePullStartPosition = new Vector2i(0, 0);
+
         GolfBall golfBall = new GolfBall(20, new Vector2f(250, 250), new Vector2f(-2, -5));
         GolfWall wall = new GolfWall(new Rectangle(100, 100, 60, 130));
 
@@ -32,6 +34,14 @@ namespace Golf.States
         public override void Input()
         {
             Game.window.DispatchEvents();
+            if (mousePullStartPosition.X == 0 && mousePullStartPosition.Y == 0 && Mouse.IsButtonPressed(Mouse.Button.Left))
+                mousePullStartPosition = Mouse.GetPosition();
+
+            if ((mousePullStartPosition.X != 0 || mousePullStartPosition.Y != 0) && !Mouse.IsButtonPressed(Mouse.Button.Left))
+            {
+                golfBall.Hit((Vector2f)(mousePullStartPosition - Mouse.GetPosition()));
+                mousePullStartPosition = new Vector2i(0, 0);
+            }
         }
     }
 }

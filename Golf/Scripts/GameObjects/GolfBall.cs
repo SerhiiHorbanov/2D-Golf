@@ -11,7 +11,7 @@ namespace Golf.Scripts.GameObjects
 {
     struct GolfBall
     {
-        private static float velocityReduce = 0.99f;
+        private static float velocityReduce = 0.95f;
         private int radius;
         private Vector2f position;
         private Vector2f velocity;
@@ -71,6 +71,11 @@ namespace Golf.Scripts.GameObjects
             Game.window.Draw(shape);
         }
 
+        public void Hit(Vector2f velocity)
+        {
+            this.velocity += velocity;
+        }
+
         public bool CollidesWith(GolfWall wall)
         {
             float clampX = Math.Clamp(position.X, wall.Left, wall.Right);
@@ -85,7 +90,7 @@ namespace Golf.Scripts.GameObjects
         }
 
         /* я спочатку так хотів зробити :skull:
-         * public bool CollidesWith(GolfWall wall)
+        public bool CollidesWith(GolfWall wall)
         {
             bool xInsideWall = position.X <= wall.Right|| position.X >= wall.Left;
             bool yInsideWall = position.Y <= wall.Bottom || position.Y >= wall.Top;
