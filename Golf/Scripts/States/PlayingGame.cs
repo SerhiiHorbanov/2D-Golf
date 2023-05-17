@@ -13,7 +13,7 @@ namespace Golf.States
 {
     internal class PlayingGame : State
     {
-        GolfBall golfBall = new GolfBall(20, new Vector2f(250, 250), new Vector2f(0, -10));
+        GolfBall golfBall = new GolfBall(20, new Vector2f(250, 250), new Vector2f(-2, -5));
         GolfWall wall = new GolfWall(new Rectangle(100, 100, 60, 130));
 
         public override void Update()

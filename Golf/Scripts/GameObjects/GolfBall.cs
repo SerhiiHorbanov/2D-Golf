@@ -73,6 +73,20 @@ namespace Golf.Scripts.GameObjects
 
         public bool CollidesWith(GolfWall wall)
         {
+            float clampX = Math.Clamp(position.X, wall.Left, wall.Right);
+            float clampY = Math.Clamp(position.Y, wall.Top, wall.Bottom);
+
+            float XDifference = clampX - position.X;
+            float YDifference = clampY - position.Y;
+
+            float distanceToClampPoint = (float)Math.Sqrt((XDifference * XDifference) + (YDifference * YDifference));
+
+            return distanceToClampPoint < radius;
+        }
+
+        /* я спочатку так хотів зробити :skull:
+         * public bool CollidesWith(GolfWall wall)
+        {
             bool xInsideWall = position.X <= wall.Right|| position.X >= wall.Left;
             bool yInsideWall = position.Y <= wall.Bottom || position.Y >= wall.Top;
 
@@ -93,6 +107,6 @@ namespace Golf.Scripts.GameObjects
         public float YDistanceToWall(GolfWall wall) 
             => Math.Min(Math.Abs(position.Y - wall.Bottom), Math.Abs(position.Y - wall.Top));
         public float XDistanceToWall(GolfWall wall) 
-            => Math.Min(Math.Abs(position.X - wall.Right), Math.Abs(position.X - wall.Left));
+            => Math.Min(Math.Abs(position.X - wall.Right), Math.Abs(position.X - wall.Left));*/
     }
 }
