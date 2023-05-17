@@ -58,15 +58,9 @@ namespace Golf.Scripts.GameObjects
             }
         }
 
-        public void Render(GolfWall wall)
+        public void Render()
         {
             shape.Position = new Vector2f(position.X - radius, position.Y - radius);
-
-            if (CollidesWith(wall))
-                shape.FillColor = Color.Red;
-
-            else
-                shape.FillColor = Color.White;
 
             Game.window.Draw(shape);
         }

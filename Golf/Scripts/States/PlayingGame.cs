@@ -16,7 +16,8 @@ namespace Golf.States
         Vector2i mousePullStartPosition = new Vector2i(0, 0);
 
         GolfBall golfBall = new GolfBall(20, new Vector2f(250, 250), new Vector2f(-2, -5));
-        GolfWall wall = new GolfWall(new Rectangle(100, 100, 60, 130));
+        GolfHole hole = new GolfHole(25, new Vector2f(250, 50));
+        GolfWall[] walls = new GolfWall[1]{ new GolfWall(new Rectangle(100, 100, 60, 130)) };
 
         public override void Update()
         {
@@ -26,14 +27,21 @@ namespace Golf.States
         public override void Render()
         {
             Game.window.Clear(SFML.Graphics.Color.Black);
-            golfBall.Render(wall);
-            wall.Render();
+            
+            golfBall.Render();
+
+            foreach (GolfWall wall in walls)
+            {
+                wall.Render();
+            }
+
             Game.window.Display();
         }
 
         public override void Input()
         {
             Game.window.DispatchEvents();
+
             if (mousePullStartPosition.X == 0 && mousePullStartPosition.Y == 0 && Mouse.IsButtonPressed(Mouse.Button.Left))
                 mousePullStartPosition = Mouse.GetPosition();
 
