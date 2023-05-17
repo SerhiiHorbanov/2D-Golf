@@ -43,7 +43,7 @@ namespace Golf
 
         private void Timing()
         {
-
+            Thread.Sleep(10);
         }
     }
 }
