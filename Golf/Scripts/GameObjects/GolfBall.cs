@@ -103,31 +103,7 @@ namespace Golf.Scripts.GameObjects
 
         private void CollideWith(GolfWall wall)
         {
-
+            Console.WriteLine("collided with wall");
         }
-        /* я спочатку так хотів зробити :skull:
-        public bool CollidesWith(GolfWall wall)
-        {
-            bool xInsideWall = position.X <= wall.Right|| position.X >= wall.Left;
-            bool yInsideWall = position.Y <= wall.Bottom || position.Y >= wall.Top;
-
-            if (xInsideWall || yInsideWall)
-                return false;
-
-            else if (xInsideWall)
-                return YDistanceToWall(wall) < radius;
-
-            else if (yInsideWall)
-                return XDistanceToWall(wall) < radius;
-
-            float xDistanceToWall = XDistanceToWall(wall);
-            float yDistanceToWall = YDistanceToWall(wall);
-            return Math.Sqrt((xDistanceToWall * xDistanceToWall) + (yDistanceToWall * yDistanceToWall)) < radius;
-        }
-
-        public float YDistanceToWall(GolfWall wall) 
-            => Math.Min(Math.Abs(position.Y - wall.Bottom), Math.Abs(position.Y - wall.Top));
-        public float XDistanceToWall(GolfWall wall) 
-            => Math.Min(Math.Abs(position.X - wall.Right), Math.Abs(position.X - wall.Left));*/
     }
 }
