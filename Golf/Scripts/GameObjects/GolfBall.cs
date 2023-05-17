@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
+using Golf.States;
 
 namespace Golf.Scripts.GameObjects
 {
@@ -31,7 +32,16 @@ namespace Golf.Scripts.GameObjects
             position += velocity;
 
             CheckBoundsCollisions();
-            
+
+            foreach (GolfWall wall in PlayingGame.walls)
+                if (IsCollidesWith(wall))
+                    CollideWith(wall);
+
+            if (CollidesWithHole())
+            {
+                PlayingGame.Win();
+            }
+
         }
 
         private void CheckBoundsCollisions()
@@ -70,7 +80,7 @@ namespace Golf.Scripts.GameObjects
             this.velocity += velocity;
         }
 
-        public bool CollidesWith(GolfWall wall)
+        public bool IsCollidesWith(GolfWall wall)
         {
             float clampX = Math.Clamp(position.X, wall.Left, wall.Right);
             float clampY = Math.Clamp(position.Y, wall.Top, wall.Bottom);
@@ -83,6 +93,18 @@ namespace Golf.Scripts.GameObjects
             return distanceToClampPoint < radius;
         }
 
+        public bool CollidesWithHole()
+        {
+            float XDifference = position.X - PlayingGame.hole.position.X;
+            float YDifference = position.Y - PlayingGame.hole.position.Y;
+            float distance = ((XDifference * XDifference) + (YDifference * YDifference));
+            return distance < PlayingGame.hole.radius;
+        }
+
+        private void CollideWith(GolfWall wall)
+        {
+
+        }
         /* я спочатку так хотів зробити :skull:
         public bool CollidesWith(GolfWall wall)
         {

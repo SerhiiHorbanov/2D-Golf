@@ -15,9 +15,9 @@ namespace Golf.States
     {
         Vector2i mousePullStartPosition = new Vector2i(0, 0);
 
-        GolfBall golfBall = new GolfBall(20, new Vector2f(250, 250), new Vector2f(-2, -5));
-        GolfHole hole = new GolfHole(25, new Vector2f(250, 50));
-        GolfWall[] walls = new GolfWall[1]{ new GolfWall(new Rectangle(100, 100, 60, 130)) };
+        static GolfBall golfBall = new GolfBall(20, new Vector2f(250, 250), new Vector2f(-2, -5));
+        static public GolfHole hole = new GolfHole(25, new Vector2f(250, 50));
+        static public GolfWall[] walls = new GolfWall[1]{ new GolfWall(new Rectangle(100, 100, 60, 130)) };
 
         public override void Update()
         {
@@ -35,6 +35,8 @@ namespace Golf.States
                 wall.Render();
             }
 
+            hole.Render();
+
             Game.window.Display();
         }
 
@@ -50,6 +52,12 @@ namespace Golf.States
                 golfBall.Hit((Vector2f)(mousePullStartPosition - Mouse.GetPosition()));
                 mousePullStartPosition = new Vector2i(0, 0);
             }
+        }
+
+        static public void Win()
+        {
+            Game.endedPlaying = true;
+            Game.window.Close();
         }
     }
 }
