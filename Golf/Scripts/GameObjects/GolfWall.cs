@@ -4,14 +4,13 @@ using System.Drawing;
 
 namespace Golf.Scripts.GameObjects
 {
-    struct GolfWall
+    class GolfWall : GameObject
     {
         public Rectangle rectangle { get; private set; }
         public int Top => rectangle.Top;
         public int Bottom => rectangle.Bottom;
         public int Left => rectangle.Left;
         public int Right => rectangle.Right;
-        public RectangleShape shape;
 
         public GolfWall(Rectangle rectangle)
         {
@@ -20,9 +19,14 @@ namespace Golf.Scripts.GameObjects
             shape.Position = new Vector2f(Left, Top);
         }
 
-        public void Render()
+        public override void Render()
         {
             Game.window.Draw(shape);
+        }
+
+        public override void Update()
+        {
+
         }
     }
 }

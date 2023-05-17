@@ -3,13 +3,12 @@ using SFML.Graphics;
 
 namespace Golf.Scripts.GameObjects
 {
-    struct GolfHole
+    class GolfHole : GameObject
     {
         public int radius { get; private set; }
         public Vector2f position { get; private set; }
-        private CircleShape shape;
 
-        public GolfHole(int radius, Vector2f position)
+        public GolfHole(int radius = 0, Vector2f position = new Vector2f())
         {
             this.radius = radius;
             this.position = position;
@@ -18,9 +17,9 @@ namespace Golf.Scripts.GameObjects
             shape.Position = new Vector2f(position.X - radius, position.Y - radius);
         }
 
-        public void Render()
+        public override void Update()
         {
-            Game.window.Draw(shape);
+
         }
     }
 }

@@ -10,15 +10,14 @@ using Golf.States;
 
 namespace Golf.Scripts.GameObjects
 {
-    struct GolfBall
+    class GolfBall : GameObject
     {
         private static float velocityReduce = 0.95f;
         private int radius;
         private Vector2f position;
         private Vector2f velocity;
-        private CircleShape shape;
 
-        public GolfBall(int radius, Vector2f position, Vector2f velocity = new Vector2f())
+        public GolfBall(int radius = 0, Vector2f position = new Vector2f(), Vector2f velocity = new Vector2f())
         {
             this.radius = radius;
             this.position = position;
@@ -26,16 +25,20 @@ namespace Golf.Scripts.GameObjects
             shape = new CircleShape(radius);
         }
 
-        public void Update()
+        public override void Update()
         {
             velocity *= velocityReduce;
             position += velocity;
 
             CheckBoundsCollisions();
 
-            foreach (GolfWall wall in PlayingGame.walls)
-                if (IsCollidesWith(wall))
-                    CollideWith(wall);
+            foreach (GameObject gameObject in PlayingGame.gameObjects)
+                if (gameObject is GolfWall)
+                {
+                    GolfWall wall = (GolfWall) gameObject;
+                    if (IsCollidesWith(wall))
+                        CollideWith(wall);
+                }
 
             if (CollidesWithHole())
             {
@@ -68,7 +71,7 @@ namespace Golf.Scripts.GameObjects
             }
         }
 
-        public void Render()
+        public override void Render()
         {
             shape.Position = new Vector2f(position.X - radius, position.Y - radius);
 
@@ -95,10 +98,19 @@ namespace Golf.Scripts.GameObjects
 
         public bool CollidesWithHole()
         {
-            float XDifference = position.X - PlayingGame.hole.position.X;
-            float YDifference = position.Y - PlayingGame.hole.position.Y;
+            GolfHole hole = new GolfHole();
+            foreach (GameObject gameObject in PlayingGame.gameObjects)
+            {
+                if (gameObject is GolfHole)
+                {
+                    hole = (GolfHole)gameObject;
+                    break;
+                }
+            }
+            float XDifference = position.X - hole.position.X;
+            float YDifference = position.Y - hole.position.Y;
             float distance = ((XDifference * XDifference) + (YDifference * YDifference));
-            return distance < PlayingGame.hole.radius;
+            return distance < hole.radius;
         }
 
         private void CollideWith(GolfWall wall)

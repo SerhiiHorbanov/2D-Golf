@@ -15,27 +15,27 @@ namespace Golf.States
     {
         Vector2i mousePullStartPosition = new Vector2i(0, 0);
 
-        static GolfBall golfBall = new GolfBall(20, new Vector2f(250, 250), new Vector2f(-2, -5));
-        static public GolfHole hole = new GolfHole(25, new Vector2f(250, 50));
-        static public GolfWall[] walls = new GolfWall[1]{ new GolfWall(new Rectangle(100, 100, 60, 130)) };
+        static public GameObject[] gameObjects = new GameObject[3]
+        {
+            new GolfBall(20, new Vector2f(250, 250), new Vector2f(-2, -5)),
+            new GolfHole(25, new Vector2f(250, 50)),
+            new GolfWall(new Rectangle(100, 100, 60, 130)),
+        };
+        
 
         public override void Update()
         {
-            golfBall.Update();
+            foreach (GameObject gameObject in gameObjects)
+                gameObject.Update();
         }
 
         public override void Render()
         {
             Game.window.Clear(SFML.Graphics.Color.Black);
-            
-            golfBall.Render();
 
-            foreach (GolfWall wall in walls)
-            {
-                wall.Render();
-            }
 
-            hole.Render();
+            foreach (GameObject gameObject in gameObjects)
+                gameObject.Render();
 
             Game.window.Display();
         }
@@ -49,7 +49,16 @@ namespace Golf.States
 
             if ((mousePullStartPosition.X != 0 || mousePullStartPosition.Y != 0) && !Mouse.IsButtonPressed(Mouse.Button.Left))
             {
-                golfBall.Hit((Vector2f)(mousePullStartPosition - Mouse.GetPosition()));
+                GolfBall ball = new GolfBall();
+                foreach (GameObject gameObject in gameObjects)
+                {
+                    if (gameObject is GolfBall)
+                    {
+                        ball = (GolfBall)gameObject;
+                        break;
+                    }
+                }
+                ball.Hit((Vector2f)(mousePullStartPosition - Mouse.GetPosition()));
                 mousePullStartPosition = new Vector2i(0, 0);
             }
         }
