@@ -3,12 +3,12 @@ using SFML.Graphics;
 
 namespace Golf.Scripts.GameObjects
 {
-    class GolfHole : GameObject
+    class Hole : GameObject
     {
         public int radius { get; private set; }
         public Vector2f position { get; private set; }
 
-        public GolfHole(int radius = 0, Vector2f position = new Vector2f())
+        public Hole(int radius = 0, Vector2f position = new Vector2f())
         {
             this.radius = radius;
             this.position = position;

@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace Golf.Scripts.GameObjects
 {
-    class GolfWall : GameObject
+    class Wall : GameObject
     {
         public Rectangle rectangle { get; private set; }
         public int Top => rectangle.Top;
@@ -12,21 +12,11 @@ namespace Golf.Scripts.GameObjects
         public int Left => rectangle.Left;
         public int Right => rectangle.Right;
 
-        public GolfWall(Rectangle rectangle)
+        public Wall(Rectangle rectangle)
         {
             this.rectangle = rectangle;
             shape = new RectangleShape(new Vector2f(rectangle.Width, rectangle.Height));
             shape.Position = new Vector2f(Left, Top);
-        }
-
-        public override void Render()
-        {
-            Game.window.Draw(shape);
-        }
-
-        public override void Update()
-        {
-
         }
     }
 }

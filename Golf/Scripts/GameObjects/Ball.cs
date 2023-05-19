@@ -10,14 +10,14 @@ using Golf.States;
 
 namespace Golf.Scripts.GameObjects
 {
-    class GolfBall : GameObject
+    class Ball : GameObject
     {
         private static float velocityReduce = 0.95f;
         private int radius;
         private Vector2f position;
         private Vector2f velocity;
 
-        public GolfBall(int radius = 0, Vector2f position = new Vector2f(), Vector2f velocity = new Vector2f())
+        public Ball(int radius = 0, Vector2f position = new Vector2f(), Vector2f velocity = new Vector2f())
         {
             this.radius = radius;
             this.position = position;
@@ -33,9 +33,9 @@ namespace Golf.Scripts.GameObjects
             CheckBoundsCollisions();
 
             foreach (GameObject gameObject in PlayingGame.gameObjects)
-                if (gameObject is GolfWall)
+                if (gameObject is Wall)
                 {
-                    GolfWall wall = (GolfWall) gameObject;
+                    Wall wall = (Wall) gameObject;
                     if (IsCollidesWith(wall))
                         CollideWith(wall);
                 }
@@ -83,7 +83,7 @@ namespace Golf.Scripts.GameObjects
             this.velocity += velocity;
         }
 
-        public bool IsCollidesWith(GolfWall wall)
+        public bool IsCollidesWith(Wall wall)
         {
             float clampX = Math.Clamp(position.X, wall.Left, wall.Right);
             float clampY = Math.Clamp(position.Y, wall.Top, wall.Bottom);
@@ -98,22 +98,26 @@ namespace Golf.Scripts.GameObjects
 
         public bool CollidesWithHole()
         {
-            GolfHole hole = new GolfHole();
+            Hole hole = null;
             foreach (GameObject gameObject in PlayingGame.gameObjects)
             {
-                if (gameObject is GolfHole)
+                if (gameObject is Hole)
                 {
-                    hole = (GolfHole)gameObject;
+                    hole = (Hole)gameObject;
                     break;
                 }
             }
+
+            if (hole == null)
+                return false;
+
             float XDifference = position.X - hole.position.X;
             float YDifference = position.Y - hole.position.Y;
             float distance = ((XDifference * XDifference) + (YDifference * YDifference));
             return distance < hole.radius;
         }
 
-        private void CollideWith(GolfWall wall)
+        private void CollideWith(Wall wall)
         {
             Console.WriteLine("collided with wall");
         }

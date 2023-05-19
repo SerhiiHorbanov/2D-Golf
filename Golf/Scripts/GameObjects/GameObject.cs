@@ -6,7 +6,7 @@ namespace Golf.Scripts.GameObjects
     {
         protected Shape shape;
 
-        abstract public void Update();
+        public virtual void Update() { }
         public virtual void Render()
         => Game.window.Draw(shape);
     }

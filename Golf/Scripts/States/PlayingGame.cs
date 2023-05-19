@@ -17,12 +17,11 @@ namespace Golf.States
 
         static public GameObject[] gameObjects = new GameObject[3]
         {
-            new GolfBall(20, new Vector2f(250, 250), new Vector2f(-2, -5)),
-            new GolfHole(25, new Vector2f(250, 50)),
-            new GolfWall(new Rectangle(100, 100, 60, 130)),
+            new Ball(20, new Vector2f(250, 250), new Vector2f(-2, -5)),
+            new Hole(25, new Vector2f(250, 50)),
+            new Wall(new Rectangle(100, 100, 60, 130)),
         };
         
-
         public override void Update()
         {
             foreach (GameObject gameObject in gameObjects)
@@ -49,12 +48,12 @@ namespace Golf.States
 
             if ((mousePullStartPosition.X != 0 || mousePullStartPosition.Y != 0) && !Mouse.IsButtonPressed(Mouse.Button.Left))
             {
-                GolfBall ball = new GolfBall();
+                Ball ball = null;
                 foreach (GameObject gameObject in gameObjects)
                 {
-                    if (gameObject is GolfBall)
+                    if (gameObject is Ball)
                     {
-                        ball = (GolfBall)gameObject;
+                        ball = (Ball)gameObject;
                         break;
                     }
                 }

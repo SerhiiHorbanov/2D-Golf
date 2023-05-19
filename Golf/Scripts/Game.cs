@@ -7,11 +7,12 @@ namespace Golf
     class Game
     {
         static public bool endedPlaying = false;
-        static private State currentState = new Starting();
+        static private State currentState;
         static public RenderWindow window;
 
         public void Start()
         {
+            currentState = new Starting();
             while (!endedPlaying)
             {
                 Update();
