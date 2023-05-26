@@ -12,7 +12,7 @@ namespace Golf.Scripts.GameObjects
 {
     class Ball : GameObject
     {
-        private static float velocityReduce = 0.95f;
+        private static float velocityReduce = 0.97f;
         private int radius;
         private Vector2f position;
         private Vector2f velocity;
@@ -33,16 +33,12 @@ namespace Golf.Scripts.GameObjects
             CheckBoundsCollisions();
 
             foreach (GameObject gameObject in PlayingGame.gameObjects)
-                if (gameObject is Wall)
-                {
-                    Wall wall = (Wall) gameObject;
-                    if (IsCollidesWith(wall))
-                        CollideWith(wall);
-                }
-
-            if (CollidesWithHole())
             {
-                PlayingGame.Win();
+                if (gameObject is Wall)
+                    TryCollideWith((Wall)gameObject);
+
+                if (gameObject is Hole)
+                    TryCollideWith((Hole)gameObject);
             }
 
         }
@@ -76,6 +72,16 @@ namespace Golf.Scripts.GameObjects
             shape.Position = new Vector2f(position.X - radius, position.Y - radius);
 
             Game.window.Draw(shape);
+
+            DrawDebugLine(position, position + velocity);
+        }
+
+        private void DrawDebugLine(Vector2f firstPoint, Vector2f secondPoint)
+        {
+            VertexArray line = new VertexArray(PrimitiveType.LinesStrip, 2);
+            line[0] = new Vertex(firstPoint, Color.Red);
+            line[1] = new Vertex(secondPoint, Color.Red);
+            Game.window.Draw(line);
         }
 
         public void Hit(Vector2f velocity)
@@ -83,43 +89,74 @@ namespace Golf.Scripts.GameObjects
             this.velocity += velocity;
         }
 
-        public bool IsCollidesWith(Wall wall)
+        public void TryCollideWith(Wall wall)
         {
-            float clampX = Math.Clamp(position.X, wall.Left, wall.Right);
-            float clampY = Math.Clamp(position.Y, wall.Top, wall.Bottom);
-
-            float XDifference = clampX - position.X;
-            float YDifference = clampY - position.Y;
-
-            float distanceToClampPoint = (float)Math.Sqrt((XDifference * XDifference) + (YDifference * YDifference));
-
-            return distanceToClampPoint < radius;
+            float clampedX = Math.Clamp(position.X, wall.Left, wall.Right);
+            float clampedY = Math.Clamp(position.Y, wall.Top, wall.Bottom);
+            if (DistanceTo(new Vector2f(clampedX, clampedY)) < radius)
+                CollideWith(wall);
         }
 
-        public bool CollidesWithHole()
+        public void CollideWith(Wall wall)
         {
-            Hole hole = null;
-            foreach (GameObject gameObject in PlayingGame.gameObjects)
+            bool isXInsideWall = position.X <= wall.Right && position.X >= wall.Left;
+            bool isYInsideWall = position.Y <= wall.Bottom && position.Y >= wall.Top;
+
+            if (isXInsideWall)
             {
-                if (gameObject is Hole)
+                if (YDistanceToWall(wall) < radius)
                 {
-                    hole = (Hole)gameObject;
-                    break;
+                    velocity.Y = -velocity.Y;
+
+                    if (position.Y < wall.Top)
+                        position.Y = wall.Top - radius;
+
+                    if (position.Y > wall.Bottom)
+                        position.Y = wall.Bottom + radius;
+
+                    return;
                 }
             }
 
+            else if (isYInsideWall)
+            {
+                if (XDistanceToWall(wall) < radius)
+                {
+                    velocity.X = -velocity.X;
+
+                    if (position.X < wall.Left)
+                        position.X = wall.Left - radius;
+
+                    if (position.X > wall.Right)
+                        position.X = wall.Right + radius;
+
+                    return;
+                }
+            }
+
+            velocity.X = -velocity.X;
+            velocity.Y = -velocity.Y;
+        }
+
+        public float YDistanceToWall(Wall wall) 
+            => Math.Min(Math.Abs(position.Y - wall.Bottom), Math.Abs(position.Y - wall.Top));
+        public float XDistanceToWall(Wall wall) 
+            => Math.Min(Math.Abs(position.X - wall.Right), Math.Abs(position.X - wall.Left));
+
+        public float DistanceTo(Vector2f secondPosition)
+        {
+            float XDifference = position.X - secondPosition.X;
+            float YDifference = position.Y - secondPosition.Y;
+            float distance = (float)Math.Sqrt((XDifference * XDifference) + (YDifference * YDifference));
+            return distance;
+        }
+
+        public bool TryCollideWith(Hole hole)
+        {
             if (hole == null)
                 return false;
 
-            float XDifference = position.X - hole.position.X;
-            float YDifference = position.Y - hole.position.Y;
-            float distance = ((XDifference * XDifference) + (YDifference * YDifference));
-            return distance < hole.radius;
-        }
-
-        private void CollideWith(Wall wall)
-        {
-            Console.WriteLine("collided with wall");
+            return DistanceTo(hole.position) < hole.radius;
         }
     }
 }
